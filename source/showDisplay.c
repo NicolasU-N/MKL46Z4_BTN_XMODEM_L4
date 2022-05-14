@@ -14,22 +14,28 @@ char state_display;
 
 uint8_t character;
 
+unsigned int N_SHOW = 1;
+
 void show_data_init() {
 	// Initialize display
 	display_init();
 	state_display = STBY_MODE;
 	//last_state_display = STBY_MODE;
-	Tm_Inicie_periodo(&c_tiempo, N_PER_MUX, 1); //8.333 ms = 120hz
 	pBufferDisplay = buffer_init(BUFF_SIZE_DIS); // 32 64 200
+	Tm_Inicie_periodo(&c_tiempo, N_PER_MUX, 1); //8.333 ms = 120hz
+	Tm_Inicie_periodo(&c_tiempo, N_PER_SHOW_D, N_SHOW); // sacar datos del buffer (hz,ldval) 120hz->1,50hz->2,40hz->3,30hz->4,24hz->5
 }
 
 void show_data() {
+	if (!buffer_is_empty(pBufferDisplay)) { // si hay datos en el buffer
+		buffer_get_data(pBufferDisplay, &character);
+		//myprintf_uart1(" %d\r\n", character); //CO=%d
+	}
+}
+
+void mux_display() {
 	switch (state_display) {
 	case NORMAL_MODE:
-		if (!buffer_is_empty(pBufferDisplay)) { // si hay datos en el buffer
-			buffer_get_data(pBufferDisplay, &character);
-			//myprintf_uart1(" %d\r\n", character); //CO=%d
-		}
 		display_scan(character);
 		break;
 	case STBY_MODE:

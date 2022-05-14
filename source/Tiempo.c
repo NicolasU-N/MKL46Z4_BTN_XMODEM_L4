@@ -3,7 +3,7 @@
 #include "Tiempo.h"
 
 /* Rutina para iniciar el módulo (su estructura de datos) */
-void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_Num nto, Tm_Atender *atender) { //Tm_Pwm *ppwm, Tm_Num npwm,
+void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_Num nto) { //Tm_Pwm *ppwm, Tm_Num npwm, , Tm_Atender *atender
 	Tm_Num i;
 
 	/* Tabla de períodos */
@@ -21,20 +21,17 @@ void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_
 		(*tp) = 0;
 
 	/* Rutina para manejar el timer (HW) */
-	tcp->atender = atender;
+	//tcp->atender = atender;
 }
 
 /* Rutina para procesar el módulo (dentro del loop de polling) */
 void Tm_Procese(Tm_Control *tcp) {
 	Tm_Num i;
 	Tm_Periodo *pp;
-	//Tm_Pwm *ppwm;
 	Tm_Timeout *tp;
 
-	if (!(tcp->atender(SI)))
-		return;
-
-	//myprintf("dentro de procese timer\n");
+	//if (!(tcp->atender(SI)))
+	//	return;
 
 	/* Procesa la tabla de períodos */
 	for (i = tcp->nper, pp = tcp->pp; i; ++pp, --i)

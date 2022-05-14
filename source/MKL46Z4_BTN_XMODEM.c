@@ -38,6 +38,7 @@
 #include "showDisplay.h"
 #include "uart_ringBuffer.h"
 #include "xmodem.h"
+#include "button.h"
 
 //---------------BUFFER RX-----------------
 buffer_struct *pBufferRx;
@@ -45,25 +46,26 @@ buffer_struct *pBufferRx;
 
 //---------------DISPLAY------------------
 buffer_struct *pBufferDisplay;
+
+extern Tm_Contador N_SHOW;
 //--------------------------------------
 
 //---------------XMODEM-----------------
-
+buffer_struct *pBufferXmodem;
 //--------------------------------------
 
 //---------------TIMER------------------
 Tm_Control c_tiempo;
 static Tm_Periodo periodos[NUM_PER];
 static Tm_Timeout timeouts[NUM_TO];
-
-static char atender_timer(char atienda);
 //-------------------------------------
 
 void PIT_IRQHandler(void) {
 	/* Clear interrupt flag.*/
-	if (atender_timer(NO)) {
-		Tm_Procese(&c_tiempo);
-	}
+	//if (atender_timer(NO)) {
+	Tm_Procese(&c_tiempo);
+	PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;
+	//}
 }
 
 /*
@@ -77,26 +79,49 @@ int main(void) {
 
 	pit_init_ch0(0x30D37); //0x30D37 -> 8.333ms || 0x124F7 -> 3.125ms || 0x752F-> 1.25ms || 0xB71AFF -> 500ms
 
-	Tm_Inicio(&c_tiempo, periodos, NUM_PER, timeouts, NUM_TO, &atender_timer); //, pwms, NUM_PWMS
+	Tm_Inicio(&c_tiempo, periodos, NUM_PER, timeouts, NUM_TO); //, pwms, NUM_PWMS , &atender_timer
 
 	xmodem_init();
 
 	show_data_init();
+
+	initBtns();
 
 	//myprintf("Hello World\r\n");
 	uart_send_byte(NAK); //NACK 21
 
 	while (1) {
 
-		//if (atender_timer(NO)) {
-		//	Tm_Procese(&c_tiempo);
-		//}
-
-		if (Tm_Hubo_periodo(&c_tiempo, N_PER_MUX)) { // 120hz multiplexacion y sacar datos de buffer de display
+		if (Tm_Hubo_periodo(&c_tiempo, N_PER_MUX)) { // 120hz
 			Tm_Baje_periodo(&c_tiempo, N_PER_MUX);
-			show_data();
+			mux_display();
 		}
 
+		if (Tm_Hubo_periodo(&c_tiempo, N_PER_SHOW_D)) { // sacar datos de buffer
+			Tm_Baje_periodo(&c_tiempo, N_PER_SHOW_D);
+			show_data();
+		}
+		//-----------------------------------------------------------------------------
+
+		//Read Btn
+		if (Tm_Hubo_periodo(&c_tiempo, N_PER_READ_BTN)) { // sacar datos de buffer
+			Tm_Baje_periodo(&c_tiempo, N_PER_READ_BTN);
+			if (read_button_minus()) {
+				if (N_SHOW != 1)
+					N_SHOW--;
+				myprintf_uart1("- %d\r\n", N_SHOW); //debug
+				Tm_Inicie_periodo(&c_tiempo, N_PER_SHOW_D, N_SHOW);
+			}
+
+			if (read_button_plus()) {
+				if (N_SHOW <= 4)
+					N_SHOW++;
+				myprintf_uart1("+ %d\r\n", N_SHOW); //debug
+				Tm_Inicie_periodo(&c_tiempo, N_PER_SHOW_D, N_SHOW);
+			}
+		}
+
+		//-----------------------------------------------------------------------------
 		//XMODEM
 		procesar_xmoden();
 
@@ -113,16 +138,4 @@ int main(void) {
 
 	}
 	return 0;
-}
-
-/* Rutina de verificación y atención del HW del timer */
-static char atender_timer(char atienda) {
-	if (PIT->CHANNEL[0].TFLG & PIT_TFLG_TIF_MASK) {
-		if (atienda)
-			/* Clear interrupt flag.*/
-			PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;
-		return SI;
-	} else {
-		return NO;
-	}
 }

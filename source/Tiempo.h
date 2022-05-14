@@ -3,7 +3,7 @@
 #define TIEMPO_H_
 
 #include "Varios.h"
-#include "uart_ringBuffer.h"
+//#include "uart_ringBuffer.h"
 //#include "board.h"
 
 /* Tipo de dato para los contadores */
@@ -57,7 +57,8 @@ struct Tm_Control {
 };
 
 /* Rutina para iniciar el módulo (su estructura de datos) */
-void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_Num nto, Tm_Atender *atender); //Tm_Pwm *ppwm, Tm_Num npwm,
+//void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_Num nto, Tm_Atender *atender); //Tm_Pwm *ppwm, Tm_Num npwm,
+void Tm_Inicio(Tm_Control *tcp, Tm_Periodo *pp, Tm_Num nper, Tm_Timeout *tp, Tm_Num nto);
 
 /* Rutina para procesar el módulo (dentro del loop de polling) */
 void Tm_Procese(Tm_Control *tcp);
