@@ -180,10 +180,6 @@ void UART0_IRQHandler() {
 
 	// agregar dato al buffer
 	buffer_add(pBufferRx, UART0_D);
-	// agregar dato al buffer
-	Tm_Inicie_timeout(&c_tiempo, N_TO_PKT_INC, 119); //2 SEG->240 360
-
-	//Tm_Inicie_timeout(&c_tiempo, N_TO_NEW_DATA, 8000); //10 SEG
 
 }
 

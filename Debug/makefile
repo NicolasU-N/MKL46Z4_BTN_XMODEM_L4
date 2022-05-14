@@ -28,25 +28,25 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: MKL46Z4_BTN_XMODEM.axf
+all: MKL46Z4_BTN_XMODEM_L4.axf
 
 # Tool invocations
-MKL46Z4_BTN_XMODEM.axf: $(OBJS) $(USER_OBJS)
+MKL46Z4_BTN_XMODEM_L4.axf: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MCU Linker'
-	arm-none-eabi-gcc -nostdlib -Xlinker -Map="MKL46Z4_BTN_XMODEM.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T "MKL46Z4_BTN_XMODEM_Debug.ld" -o "MKL46Z4_BTN_XMODEM.axf" $(OBJS) $(USER_OBJS) $(LIBS)
+	arm-none-eabi-gcc -nostdlib -Xlinker -Map="MKL46Z4_BTN_XMODEM_L4.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -Xlinker --cref -mcpu=cortex-m0plus -mthumb -T "MKL46Z4_BTN_XMODEM_Debug.ld" -o "MKL46Z4_BTN_XMODEM_L4.axf" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	$(MAKE) --no-print-directory post-build
 
 # Other Targets
 clean:
-	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) MKL46Z4_BTN_XMODEM.axf
+	-$(RM) $(EXECUTABLES)$(OBJS)$(C_DEPS) MKL46Z4_BTN_XMODEM_L4.axf
 	-@echo ' '
 
 post-build:
 	-@echo 'Performing post-build steps'
-	-arm-none-eabi-size "MKL46Z4_BTN_XMODEM.axf"; # arm-none-eabi-objcopy -v -O binary "MKL46Z4_BTN_XMODEM.axf" "MKL46Z4_BTN_XMODEM.bin" ; # checksum -p MKL46Z256xxx4 -d "MKL46Z4_BTN_XMODEM.bin";
+	-arm-none-eabi-size "MKL46Z4_BTN_XMODEM_L4.axf"; # arm-none-eabi-objcopy -v -O binary "MKL46Z4_BTN_XMODEM_L4.axf" "MKL46Z4_BTN_XMODEM_L4.bin" ; # checksum -p MKL46Z256xxx4 -d "MKL46Z4_BTN_XMODEM_L4.bin";
 	-@echo ' '
 
 .PHONY: all clean dependents post-build
