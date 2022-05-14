@@ -8,18 +8,20 @@
 #ifndef SHOWDISPLAY_H_
 #define SHOWDISPLAY_H_
 
-#include "varios.h"
+#include "Varios.h"
 #include "display.h"
 #include "Tiempo.h"
 #include "buffer.h"
 
 #define NORMAL_MODE 0
-#define STBY_MODE 1
-#define OFF_MODE 2
+#define STBY_MODE	1
+#define OFF_MODE	2
 
 void show_data_init();
 
 void show_data();
+
+void mux_display();
 
 void set_blink_1hz();
 
