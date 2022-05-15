@@ -8,7 +8,7 @@
 
 /* TIMERS */
 #define NUM_PER		6
-#define NUM_TO		2
+#define NUM_TO		3
 //#define NUM_PWMS	3
 
 #define N_PER_MUX		0 // 120Hz
@@ -20,7 +20,7 @@
 
 #define N_TO_PKT_INC	0
 #define N_TO_ERROR		1
-
+#define N_TO_ERROR_SH	2
 // XON - XOFF
 //#define XON	0x11
 //#define XOFF	0x13
