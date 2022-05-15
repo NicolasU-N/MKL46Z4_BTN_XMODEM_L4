@@ -26,23 +26,15 @@ void initBtns() {
 }
 
 char read_button_plus() {
-	// Counter for number of equal states
-	static char count = 0;
-
-	// Keeps track of current (debounced) state
-	static char button_state = 1;
-
-	// Check if button is high or low for the moment
-	char current_state = (((PTC->PDIR) >> BTN_PLUS) & 0x01U);
+	static char count = 0;	// Contador de número de estados iguales
+	static char button_state = 1;	// Realiza un seguimiento del estado actual
+	char current_state = (((PTC->PDIR) >> BTN_PLUS) & 0x01U);	// Comprobar si el botón está alto o bajo
 
 	if (current_state != button_state) {
-
-		// Button state is about to be changed, increase counter
-		count++;
+		count++; // El estado del botón está a punto de cambiarse, aumentar el contador
 		if (count >= 4) {
-			// The button have not bounced for four checks, change state
-			button_state = current_state;
-			// If the button was pressed (not released), tell main so
+			button_state = current_state; // El botón no ha rebotado por cuatro veces, cambia de estado
+			// Si se presionó el botón (no se soltó)
 			if (current_state != 0) {
 				count = 0;
 				return SI;
@@ -50,40 +42,28 @@ char read_button_plus() {
 		}
 
 	} else {
-		// Reset counter
-		count = 0;
+		count = 0; // Reiniciar contador
 	}
 	return NO;
 }
 
-
 char read_button_minus() {
-	// Counter for number of equal states
-	static char count = 0;
-
-	// Keeps track of current (debounced) state
-	static char button_state = 1;
-
-	// Check if button is high or low for the moment
-	char current_state = (((PTC->PDIR) >> BTN_MINUS) & 0x01U);
+	static char count = 0;	// Contador de número de estados iguales
+	static char button_state = 1;	// Realiza un seguimiento del estado actual
+	char current_state = (((PTC->PDIR) >> BTN_MINUS) & 0x01U); // Comprobar si el botón está alto o bajo
 
 	if (current_state != button_state) {
-
-		// Button state is about to be changed, increase counter
-		count++;
+		count++; // El estado del botón está a punto de cambiarse, aumentar el contador
 		if (count >= 4) {
-			// The button have not bounced for four checks, change state
-			button_state = current_state;
-			// If the button was pressed (not released), tell main so
+			button_state = current_state; // El botón no ha rebotado por cuatro veces, cambia de estado
+			// Si se presionó el botón (no se soltó)
 			if (current_state != 0) {
 				count = 0;
 				return SI;
 			}
 		}
-
 	} else {
-		// Reset counter
-		count = 0;
+		count = 0; // Reiniciar contador
 	}
 	return NO;
 }

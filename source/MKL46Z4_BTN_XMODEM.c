@@ -61,11 +61,8 @@ static Tm_Timeout timeouts[NUM_TO];
 //-------------------------------------
 
 void PIT_IRQHandler(void) {
-	/* Clear interrupt flag.*/
-	//if (atender_timer(NO)) {
 	Tm_Procese(&c_tiempo);
-	PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK;
-	//}
+	PIT->CHANNEL[0].TFLG &= PIT_TFLG_TIF_MASK; //Clear interrupt flag.
 }
 
 /*
