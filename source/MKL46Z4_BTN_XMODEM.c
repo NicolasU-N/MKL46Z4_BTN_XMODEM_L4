@@ -87,8 +87,8 @@ int main(void) {
 
 	initBtns();
 
-	//myprintf("Hello World\r\n");
-	//uart_send_byte(NAK); //NACK 21
+	//uart_send_byte(NAK);
+	//myprintf_uart1("NAKini\r\n");
 
 	while (1) {
 
