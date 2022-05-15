@@ -10,20 +10,17 @@ extern Tm_Control c_tiempo;
 extern buffer_struct *pBufferDisplay;
 
 char state_display;
-//char last_state_display;
-
 uint8_t character;
 
-unsigned int N_SHOW = 1;
+Tm_Contador N_SHOW = 1;
 
 void show_data_init() {
 	// Initialize display
 	display_init();
 	state_display = STBY_MODE;
-	//last_state_display = STBY_MODE;
 	pBufferDisplay = buffer_init(BUFF_SIZE_DIS); // 32 64 200
 	Tm_Inicie_periodo(&c_tiempo, N_PER_MUX, 1); //8.333 ms = 120hz
-	Tm_Inicie_periodo(&c_tiempo, N_PER_SHOW_D, N_SHOW); // sacar datos del buffer (hz,ldval) 120hz->1,50hz->2,40hz->3,30hz->4,24hz->5
+	Tm_Inicie_periodo(&c_tiempo, N_PER_SHOW_D, N_SHOW); // sacar datos del buffer (hz,ldval) 120hz->1, 50hz->2 ,40hz->3, 30hz->4, 24hz->5
 }
 
 void show_data() {

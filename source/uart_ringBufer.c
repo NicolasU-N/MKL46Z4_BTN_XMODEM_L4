@@ -150,37 +150,20 @@ char uart_receive_byte() {
 	//while (!(UART0_S1 & (1 << UART0_S1_RDRF_SHIFT)))
 	//;
 
-	//return UART0_D;
-
 	if ((UART0_S1 & (1 << UART0_S1_RDRF_SHIFT))) {
 		buffer_add(pBufferRx, UART0_D);
-		//Tm_Inicie_timeout(&c_tiempo, N_TO_NEW_DATA, 400); // 1600 -> 2 seg||8000 -> 10 SEG
-		/*
-		 if (!buffer_is_full(pBufferRx)) {
-		 //flag_xoff = NO;
-		 } else {
-		 UART0_D = XOFF; //0x13 XOFF || 0X19 XOFF REALTERM
-		 //flag_xoff = SI;
-		 }
-		 */
-		//uart_send_byte(UART0_D);
-		//if (buffer_add(pBufferRx, UART0_D)) {
-		//uart_send_byte(UART0_D);
-		//	return SI;
-		//} else {
-		//	return NO;
-		//}
+		Tm_Inicie_timeout(&c_tiempo, N_TO_PKT_INC, 1200); // 10seg	|| 2 SEG->240 360
+		Tm_Inicie_timeout(&c_tiempo, N_TO_ERROR_SH, 240); // 1seg	|| 2 SEG->240 360
+		return SI;
+	} else {
+		return NO;
 	}
-	return UART0_D;
-	//buffer_add(pBufferRx, UART0_D);
+	//return UART0_D;
 }
 
 void UART0_IRQHandler() {
 	//uart_send_byte(UART0_D);
-
-	// agregar dato al buffer
-	buffer_add(pBufferRx, UART0_D);
-
+	buffer_add(pBufferRx, UART0_D); // agregar dato al buffer
 }
 
 /*Printf Function*/
