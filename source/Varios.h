@@ -7,16 +7,16 @@
 #define NO	0
 
 /* TIMERS */
-#define NUM_PER		6
+#define NUM_PER		5
 #define NUM_TO		3
 //#define NUM_PWMS	3
 
 #define N_PER_MUX		0 // 120Hz
 //#define N_PER_SEND_ACK	1
-#define N_PER_1HZ		2 //1Hz
-#define N_PER_2HZ		3 //2Hz
-#define N_PER_SHOW_D	4 //2Hz
-#define N_PER_READ_BTN	5
+#define N_PER_1HZ		1 //1Hz
+#define N_PER_2HZ		2 //2Hz
+#define N_PER_SHOW_D	3 //2Hz
+#define N_PER_READ_BTN	4
 
 #define N_TO_PKT_INC	0
 #define N_TO_ERROR		1
