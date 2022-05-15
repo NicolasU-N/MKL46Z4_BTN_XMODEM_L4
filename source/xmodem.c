@@ -135,7 +135,7 @@ void procesar_xmoden() {
 		//myprintf_uart1("VAL LPKTN %d\r\n", lastpakectNoComp);
 
 		if ((pakectNo == lastpakectNo + 1) && (lastpakectNoComp == 255 - pakectNo)) { // en secuencia Y valida complemento
-			myprintf_uart1("\r\nOK PCKT\r\n");
+			myprintf_uart1("OK PKT\r\n");
 			lastpakectNo = pakectNo; // Actualizar pakectNo
 			flag_eot = NO;
 			flagvalidate = SI;
